@@ -31,11 +31,11 @@ def my_dense(a_in, W, b):
     """
     Computes dense layer
     Args:
-      a_in (ndarray (n, )) : Data, 1 example 
+      a_in (ndarray (n, )) : Data, 1 example
       W    (ndarray (n,j)) : Weight matrix, n features per unit, j units
-      b    (ndarray (j, )) : bias vector, j units  
+      b    (ndarray (j, )) : bias vector, j units
     Returns
-      a_out (ndarray (j,))  : j units|
+      a_out (ndarray (j,))  : j units
     """
     # Calculate the activation for each neuron, i.e. each column
     units = W.shape[1]
@@ -45,6 +45,27 @@ def my_dense(a_in, W, b):
         z = np.dot(w, a_in) + b[j]         
         a_out[j] = g(z)               
     return(a_out)
+
+def my_softmax(z):  
+    """ Softmax converts a vector of values to a probability distribution.
+    Args:
+      z (ndarray (N,))  : input data, N features
+    Returns:
+      a (ndarray (N,))  : softmax of z
+    """    
+    z_len = len(z)
+    sum_ezk = 0
+    for k in range(z_len):
+        sum_ezk += np.exp(z[k])
+    
+    a = np.array(np.zeros(z_len))
+    for j in range(z_len):
+        e_zj = np.exp(z[j])
+        a_j = e_zj / sum_ezk
+        a[j] = a_j
+    
+    return a
+
 
 if __name__ == "__main__":
     X,Y = load_coffee_data()
