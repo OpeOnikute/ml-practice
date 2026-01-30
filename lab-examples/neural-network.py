@@ -114,6 +114,34 @@ def neural_sample():
         model_predict_s, X_train, y_train, classes, X_cv, y_cv, suptitle="Simple Model"
     )
 
+def neural_sample_with_regularization():
+    """
+    Uses a loop to plot the regularization values to evaluate the best one
+    """
+    tf.random.set_seed(1234)
+    lambdas = [0.0, 0.001, 0.01, 0.05, 0.1, 0.2, 0.3]
+    models=[None] * len(lambdas)
+
+    for i in range(len(lambdas)):
+        lambda_ = lambdas[i]
+        models[i] =  Sequential(
+            [
+                Dense(120, activation = 'relu', kernel_regularizer=tf.keras.regularizers.l2(lambda_)),
+                Dense(40, activation = 'relu', kernel_regularizer=tf.keras.regularizers.l2(lambda_)),
+                Dense(classes, activation = 'linear')
+            ]
+        )
+        models[i].compile(
+            loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+            optimizer=tf.keras.optimizers.Adam(0.01),
+        )
+
+        models[i].fit(
+            X_train,y_train,
+            epochs=1000
+        )
+        print(f"Finished lambda = {lambda_}")
+
 
 if __name__ == "__main__":
     X, Y = load_coffee_data()

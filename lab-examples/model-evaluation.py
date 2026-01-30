@@ -115,7 +115,7 @@ def eval_cat_err(y, yhat):
 
 def evaluate_model():
     """
-    Evaluate the model's performance on the training vs test set
+    Evaluate the model's performance on the training vs test set.
     """
     degree = 10
     lmodel = lin_model(degree)
