@@ -52,3 +52,40 @@ def split_dataset(X, node_indices, feature):
             right_indices.append(i)        
             
     return left_indices, right_indices
+
+
+def compute_information_gain(X, y, node_indices, feature):
+    
+    """
+    Compute the information of splitting the node on a given feature
+    
+    Args:
+        X (ndarray):            Data matrix of shape(n_samples, n_features)
+        y (array like):         list or ndarray with n_samples containing the target variable
+        node_indices (ndarray): List containing the active indices. I.e, the samples being considered in this step.
+        feature (int):           Index of feature to split on
+   
+    Returns:
+        cost (float):        Cost computed
+    
+    """    
+    # Split dataset
+    left_indices, right_indices = split_dataset(X, node_indices, feature)
+    
+    # Some useful variables
+    X_node, y_node = X[node_indices], y[node_indices]
+    X_left, y_left = X[left_indices], y[left_indices]
+    X_right, y_right = X[right_indices], y[right_indices]
+    
+    information_gain = 0
+    
+    h_node = compute_entropy(y_node)
+    h_left = compute_entropy(y_left)
+    h_right = compute_entropy(y_right)
+    
+    w_left = len(X_left) / len(X_node)
+    w_right = len(X_right) / len(X_node)
+        
+    information_gain = h_node - ((w_left * h_left) + (w_right * h_right))
+    
+    return information_gain
