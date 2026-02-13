@@ -95,3 +95,5 @@ def run_kMeans(X, initial_centroids, max_iters=10, plot_progress=False):
         centroids = compute_centroids(X, idx, K)
     plt.show() 
     return centroids, idx
+
+# TODO: Try the k-means algo for image compression
